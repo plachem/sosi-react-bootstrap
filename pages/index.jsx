@@ -8,9 +8,9 @@ export async function getStaticProps() {
   return {
     props: {
       hot: await JSON.parse(json.hot_news_big),
-      medium: await JSON.parse(json.hot_news_medium)
-    ,
-    }
+      medium: await JSON.parse(json.hot_news_medium),
+    },
+    revalidate: 1,
   }
 }
 export default function Home({hot, medium}) {
@@ -23,7 +23,7 @@ export default function Home({hot, medium}) {
       <Container>
         <Container>
           <Row className="justify-content-md-between">
-            <Card className="bml-card">
+            <Card className="bml-card" key={hot.id}>
               <Card.Body>
                 <Card.Img variant="top" src={"https://api.sosivip.com" + hot.image.big.url} />
                 <Card.Title>{hot.name}</Card.Title>
@@ -35,7 +35,7 @@ export default function Home({hot, medium}) {
           </Row>
           <Row className="justify-content-md-between">
           {medium.map(item =>
-            <Card className="sml-card">
+            <Card className="sml-card" key={item.id}>
               <Card.Body>
                 <Card.Img variant="top" src={"https://api.sosivip.com" + item.image.url} />
                 <Card.Title>{item.name}</Card.Title>
