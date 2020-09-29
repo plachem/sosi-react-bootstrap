@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  sosi-react-bootstrap-container:
+    container_name: 'sosi-react-bootstrap-container'
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+      - "4000:4000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/usr/src/sosi-react-bootstrap
+    networks:
+      - docker-network
+  nodejs-sosi-react-bootstrap:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: nodejs
+    environment:
+      - HOST=0.0.0.0
+    container_name: nodejs-sosi-react-bootstrap
+    restart: unless-stopped
+    networks:
+      - docker-network
+networks:
+  docker-network:
+    driver: bridge
+
